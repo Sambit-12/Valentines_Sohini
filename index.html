@@ -1,4 +1,160 @@
-<audio controls autoplay loop>
-    <source src="https://raw.githubusercontent.com/Sambit-12/Valentines_Sohini/main/Ishq%20Hai%20x%20O%20Rangrez%20%20Bharat%20%2C%20Krish%20%2C%20Rudraksh%20x%20Real%20Voice.mp3" type="audio/mp3">
-    Your browser does not support the audio element.
-</audio>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Day Card</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <style>
+        body {
+            background: url('https://www.transparenttextures.com/patterns/hearts.png'), #ffccd5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+        .floating-emoji {
+            position: absolute;
+            font-size: 20px;
+            animation: floatUp 5s infinite ease-in-out;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0.5); opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+        }
+        .login-container {
+            background: rgba(255, 192, 203, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 2;
+        }
+        .card {
+            width: 600px;
+            height: 400px;
+            background: white;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 18px;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .slide-container {
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .arrow {
+            font-size: 24px;
+            cursor: pointer;
+            animation: blink 1s infinite alternate;
+        }
+        @keyframes blink {
+            from { opacity: 1; }
+            to { opacity: 0.3; }
+        }
+    </style>
+</head>
+<body>
+    <!-- 🎶 AUDIO ELEMENT (Hidden) -->
+    <audio id="bgMusic" loop>
+        <source src="https://docs.google.com/uc?export=download&id=1IElyIObnAYOttZ41sptpIrnU31cy2O_0" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+
+    <div class="login-container">
+        <h2>Happy Valentine's Day</h2>
+        <form onsubmit="return checkLogin()">
+            <input type="text" id="userId" placeholder="User ID" required><br>
+            <input type="password" id="password" placeholder="Password" required><br>
+            <button type="submit">Login</button>
+        </form>
+        <p id="message" style="color: red;"></p>
+    </div>
+    
+    <div class="card" id="messageCard">
+        <div class="slide-container" id="slideText">Loading...</div>
+        <div class="arrow" id="nextArrow">➡️</div>
+    </div>
+    
+    <div class="card" id="pptCard" style="display: none;">
+        <iframe id="pptSlides" width="800" height="600" 
+            src="https://docs.google.com/presentation/d/1zVD29pYqnqC_9Jr9EK4eAED47Sq-1s5p/embed?start=false&loop=false&delayms=15000" 
+            allowfullscreen></iframe>
+    </div>
+
+    <script>
+        const slides = [
+            "Happy Valentine's Day! 💖",
+            "Valentine's Day is sweeter with you! 🍫🥂",
+            "Roses are red, violets are blue...",
+            "Will you be my Valentine? ❤️"
+        ];
+        let currentSlide = 0;
+
+        function showSlide() {
+            document.getElementById("slideText").innerText = slides[currentSlide];
+        }
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                showSlide();
+            } else {
+                document.getElementById("messageCard").style.display = "none";
+                document.getElementById("pptCard").style.display = "flex";
+            }
+        }
+
+        document.getElementById("nextArrow").addEventListener("click", nextSlide);
+        showSlide();
+
+        function checkLogin() {
+            var userId = document.getElementById("userId").value;
+            var password = document.getElementById("password").value;
+            if (userId === "Sohini" && password === "SAM_SOH@1226") {
+                document.querySelector(".login-container").style.display = "none";
+                document.getElementById("messageCard").style.display = "flex";
+                playMusic(); // Start music after login
+                return false;
+            } else {
+                document.getElementById("message").innerText = "Invalid credentials!";
+                return false;
+            }
+        }
+
+        function playMusic() {
+            let bgMusic = document.getElementById("bgMusic");
+            if (bgMusic.paused) {
+                bgMusic.play().catch(err => console.log("Autoplay blocked:", err));
+            }
+        }
+
+        document.addEventListener("click", playMusic); // Play on user click
+        document.addEventListener("keydown", playMusic); // Play on any key press
+
+        function createFloatingEmojis() {
+            const emojis = ["💘", "❤️", "💌", "💋", "🌹", "👩‍❤️‍💋‍👨", "🍫", "🥂", "🎈", "🌟"];
+            for (let i = 0; i < 20; i++) {
+                let emoji = document.createElement("div");
+                emoji.classList.add("floating-emoji");
+                emoji.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+                emoji.style.left = Math.random() * 100 + "vw";
+                emoji.style.animationDuration = (3 + Math.random() * 3) + "s";
+                emoji.style.fontSize = (10 + Math.random() * 30) + "px";
+                document.body.appendChild(emoji);
+                setTimeout(() => emoji.remove(), 5000);
+            }
+        }
+        setInterval(createFloatingEmojis, 1000);
+    </script>
+</body>
+</html>
+
